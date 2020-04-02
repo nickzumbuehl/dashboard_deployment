@@ -1,1 +1,1 @@
-web: gunicorn dashb:my_awesome_dashboard --timeout 300
+web: gunicorn dashb:my_awesome_dashboard --timeout 3000
