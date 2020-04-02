@@ -8,10 +8,13 @@ from dash.dependencies import Input, Output
 import numpy as np
 from sklearn import metrics
 
+url = "https://raw.githubusercontent.com/nickzumbuehl/dashboard_deployment/master/DashboardData.csv"
 
-df_c = pd.read_csv(
-    "/Users/nickzumbuhl/Desktop/master_thesis/dashboard/DashboardData.csv", index_col=0, parse_dates=True
-)
+df_c = pd.read_csv(url,sep=",", parse_dates=True, index_col=0)
+
+#df_c = pd.read_csv(
+#    "/Users/nickzumbuhl/Desktop/master_thesis/dashboard/DashboardData.csv", index_col=0, parse_dates=True
+#)
 
 df_c = df_c.dropna()
 df_tmp = df_c.drop(["period", "DATE", "dataset"], axis=1)
