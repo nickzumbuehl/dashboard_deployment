@@ -7,3 +7,4 @@ pandas
 dash
 numpy
 sklearn
+gunicorn
