@@ -30,6 +30,7 @@ def get_options(list_stocks):
 
 
 app = dash.Dash(__name__)
+server = app.server
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div(
