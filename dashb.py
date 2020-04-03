@@ -135,7 +135,7 @@ app.layout = html.Div(
                                         {"label": "MAE", "value": "MAE"},
                                     ],
                                     multi=False,
-                                    value=["R Squared"],
+                                    value="MSE",
                                 ),
                             ],
                         ),
@@ -250,10 +250,15 @@ def update_page(period_selected, data_set_selected, accuracy_value_measure):
             ]
         )
 
+    if accuracy_value_measure == 'R Squared':
+        indicator = False
+    else:
+        indicator = True
+
     df_result = pd.DataFrame(dict_results)
     df_result = df_result.transpose().reset_index()
     df_result.columns = list(["Model", "R Squared", "MSE", "MAE"])
-    df_result = df_result.sort_values(by=[accuracy_value_measure], ascending=False)
+    df_result = df_result.sort_values(by=[accuracy_value_measure], ascending=indicator)
 
     data = df_result.to_dict("records")
 
