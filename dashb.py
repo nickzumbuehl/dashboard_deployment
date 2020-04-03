@@ -125,6 +125,20 @@ app.layout = html.Div(
                                 ),
                             ],
                         ),
+                        html.Div(
+                            children=[
+                                dcc.Dropdown(
+                                    id="accuracy_value",
+                                    options=[
+                                        {"label": "R Squared", "value": "R Squared"},
+                                        {"label": "MSE", "value": "MSE"},
+                                        {"label": "MAE", "value": "MAE"},
+                                    ],
+                                    multi=False,
+                                    value=["R Squared"],
+                                ),
+                            ],
+                        ),
                     ],
                 ),
                 html.Div(
@@ -211,9 +225,9 @@ app.layout = html.Div(
 # Callbacks
 @app.callback(
     Output("table_accuracy", "data"),
-    [Input("checklist", "value"), Input("trainingselector", "value")],
+    [Input("checklist", "value"), Input("trainingselector", "value"), Input("accuracy_value", "value")],
 )
-def update_page(period_selected, data_set_selected):
+def update_page(period_selected, data_set_selected, accuracy_value_measure):
     df_acc = df_c[df_c.dataset == str(data_set_selected)]
     df_acc = df_acc[df_acc.period == period_selected]
 
@@ -239,7 +253,7 @@ def update_page(period_selected, data_set_selected):
     df_result = pd.DataFrame(dict_results)
     df_result = df_result.transpose().reset_index()
     df_result.columns = list(["Model", "R Squared", "MSE", "MAE"])
-    df_result = df_result.sort_values(by=["R Squared"], ascending=False)
+    df_result = df_result.sort_values(by=[accuracy_value_measure], ascending=False)
 
     data = df_result.to_dict("records")
 
