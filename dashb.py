@@ -99,7 +99,7 @@ app.layout = html.Div(
                 html.Div(
                     className="pretty_container three columns",
                     children=[
-                        html.P("Pick one or more measures from the Dropdown below."),
+                        html.P("Bias (violin plots): Which models do you want to analyze the biases for. Select the models in the dropdown below: "),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
@@ -110,7 +110,7 @@ app.layout = html.Div(
                                 ),
                             ],
                         ),
-                        html.P("Pick one or more measures from the Dropdown below."),
+                        html.P("Choose the percentile you want to analyze in more depth:"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
@@ -125,6 +125,7 @@ app.layout = html.Div(
                                 ),
                             ],
                         ),
+                        html.P("Choose the accuracy measure: Table of accurancy  measures is going to be sorted by this measure:"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
