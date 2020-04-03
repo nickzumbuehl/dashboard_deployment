@@ -245,50 +245,50 @@ def update_page(period_selected, data_set_selected):
     return data
 
 
-# @app.callback(
-#     Output("timeseries", "figure"),
-#     [
-#         Input("stockselector", "value"),
-#         Input("checklist", "value"),
-#         Input("trainingselector", "value"),
-#     ],
-# )
-# def update_graph(selected_dropdown_value, checklist_value, data_selection):
-#
-#     df_tmp = df_c[(df_c.dataset == str(data_selection))]
-#     df = df_tmp[df_tmp.period == checklist_value]
-#
-#     trace1 = []
-#     for stock in selected_dropdown_value:
-#         trace1.append(
-#             go.Scatter(
-#                 x=df.DATE,
-#                 y=df[stock],
-#                 mode="lines",
-#                 opacity=0.7,
-#                 name=stock,
-#                 line={"width": 2},
-#             )
-#         )
-#
-#     traces = [trace1]
-#     data = [val for sublist in traces for val in sublist]
-#     figure = {
-#         "data": data,
-#         "layout": go.Layout(
-#             colorway=["#004604", "#2E8C31", "#0FC5DA", "#0461C4"],
-#             paper_bgcolor="rgba(0, 0, 0, 0)",
-#             plot_bgcolor="rgba(0, 0, 0, 0)",
-#             margin={"b": 20, "t": 0.5, "l": 50},
-#             hovermode="x",
-#             autosize=True,
-#             xaxis={"range": [df.DATE.min(), df.DATE.max()]},
-#             height=400,
-#         ),
-#     }
-#
-#     return figure
-#
+@app.callback(
+    Output("timeseries", "figure"),
+    [
+        Input("stockselector", "value"),
+        Input("checklist", "value"),
+        Input("trainingselector", "value"),
+    ],
+)
+def update_graph(selected_dropdown_value, checklist_value, data_selection):
+
+    df_tmp = df_c[(df_c.dataset == str(data_selection))]
+    df = df_tmp[df_tmp.period == checklist_value]
+
+    trace1 = []
+    for stock in selected_dropdown_value:
+        trace1.append(
+            go.Scatter(
+                x=df.DATE,
+                y=df[stock],
+                mode="lines",
+                opacity=0.7,
+                name=stock,
+                line={"width": 2},
+            )
+        )
+
+    traces = [trace1]
+    data = [val for sublist in traces for val in sublist]
+    figure = {
+        "data": data,
+        "layout": go.Layout(
+            colorway=["#004604", "#2E8C31", "#0FC5DA", "#0461C4"],
+            paper_bgcolor="rgba(0, 0, 0, 0)",
+            plot_bgcolor="rgba(0, 0, 0, 0)",
+            margin={"b": 20, "t": 0.5, "l": 50},
+            hovermode="x",
+            autosize=True,
+            xaxis={"range": [df.DATE.min(), df.DATE.max()]},
+            height=400,
+        ),
+    }
+
+    return figure
+
 #
 # @app.callback(
 #     Output("violins", "figure"),
