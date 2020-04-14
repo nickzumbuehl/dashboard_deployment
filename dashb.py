@@ -7,6 +7,7 @@ import pandas as pd
 from dash.dependencies import Input, Output
 import numpy as np
 from sklearn import metrics
+from sklearn.linear_model import LinearRegression
 
 url = "https://raw.githubusercontent.com/nickzumbuehl/dashboard_deployment/master/DashboardData.csv"
 
@@ -32,6 +33,13 @@ def get_options(list_stocks):
 
     return dict_list
 
+def mincer_zarno_alpha_beta(y_real, y_pred):
+    y_pred = np.array(y_pred).reshape(-1, 1)
+    y_real = np.array(y_real).reshape(-1, 1)
+    reg = LinearRegression().fit(y_pred, y_real)
+    beta = reg.coef_[0]
+    alpha = reg.intercept_
+    return alpha, beta
 
 app = dash.Dash(__name__)
 server = app.server
@@ -81,7 +89,7 @@ app.layout = html.Div(
                                     id="trainingselector",
                                     options=get_options(df_c.dataset.unique()),
                                     multi=False,
-                                    value="testing",
+                                    value="validation",
                                 )
                             ],
                         ),
@@ -135,13 +143,13 @@ app.layout = html.Div(
                                 dcc.Dropdown(
                                     id="accuracy_value",
                                     options=[
-                                        {"label": "R Squared", "value": "R Squared"},
-                                        {"label": "MSE", "value": "MSE"},
+                                        {"label": "RMSE", "value": "RMSE"},
                                         {"label": "MAE", "value": "MAE"},
                                         {"label": "MAPE", "value": "MAPE"},
+                                        {"label": "R Squared", "value": "R Squared"},
                                     ],
                                     multi=False,
-                                    value="MSE",
+                                    value="MAE",
                                 ),
                             ],
                         ),
@@ -183,7 +191,7 @@ app.layout = html.Div(
                             id="table_accuracy",
                             columns=[
                                 {"name": i, "id": i}
-                                for i in list(["Model", "R Squared", "MSE", "MAE", "MAPE"])
+                                for i in list(["Model", "RMSE", "MAE", "MAPE", "R Squared", "Beta"])
                             ],
                             style_cell={"textAlign": "center", "width": "16%"},
                         )
@@ -243,17 +251,19 @@ def update_page(period_selected, data_set_selected, accuracy_value_measure):
     for i in range(len(model_names)):
         dict_results[model_names[i]] = list(
             [
-                round(metrics.r2_score(df_acc.future, df_acc[model_names[i]]), 4),
-                round(
-                    metrics.mean_squared_error(df_acc.future, df_acc[model_names[i]]),
-                    15,
+                round(np.sqrt(
+                    metrics.mean_squared_error(df_acc.future, df_acc[model_names[i]]))
+                    * 100,
+                    7
                 ),
                 round(
                     metrics.mean_absolute_error(df_acc.future, df_acc[model_names[i]])
                     * 100,
                     5,
                 ),
-                round(mean_absolute_percentage_error(df_acc.future, df_acc[model_names[i]]), 2)
+                round(mean_absolute_percentage_error(df_acc.future, df_acc[model_names[i]]), 2),
+                round(metrics.r2_score(df_acc.future, df_acc[model_names[i]]), 4),
+                round( float(mincer_zarno_alpha_beta(df_acc.future, df_acc[model_names[i]])[1]), 3)
             ]
         )
 
@@ -264,7 +274,7 @@ def update_page(period_selected, data_set_selected, accuracy_value_measure):
 
     df_result = pd.DataFrame(dict_results)
     df_result = df_result.transpose().reset_index()
-    df_result.columns = list(["Model", "R Squared", "MSE", "MAE", "MAPE"])
+    df_result.columns = list(["Model", "RMSE", "MAE", "MAPE", "R Squared", "Beta"])
     df_result = df_result.sort_values(by=[accuracy_value_measure], ascending=indicator)
 
     data = df_result.to_dict("records")
