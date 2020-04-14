@@ -21,6 +21,10 @@ df_tmp = df_c.drop(["period", "DATE", "dataset"], axis=1)
 df_tmp_2 = df_c.drop(["period", "DATE", "dataset", "future"], axis=1)
 
 
+def mean_absolute_percentage_error(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
 def get_options(list_stocks):
     dict_list = []
     for i in list_stocks:
@@ -134,6 +138,7 @@ app.layout = html.Div(
                                         {"label": "R Squared", "value": "R Squared"},
                                         {"label": "MSE", "value": "MSE"},
                                         {"label": "MAE", "value": "MAE"},
+                                        {"label": "MAPE", "value": "MAPE"},
                                     ],
                                     multi=False,
                                     value="MSE",
@@ -178,7 +183,7 @@ app.layout = html.Div(
                             id="table_accuracy",
                             columns=[
                                 {"name": i, "id": i}
-                                for i in list(["Model", "R Squared", "MSE", "MAE"])
+                                for i in list(["Model", "R Squared", "MSE", "MAE", "MAPE"])
                             ],
                             style_cell={"textAlign": "center", "width": "16%"},
                         )
@@ -248,6 +253,7 @@ def update_page(period_selected, data_set_selected, accuracy_value_measure):
                     * 100,
                     5,
                 ),
+                round(mean_absolute_percentage_error(df_acc.future, df_acc[model_names[i]]), 2)
             ]
         )
 
@@ -258,7 +264,7 @@ def update_page(period_selected, data_set_selected, accuracy_value_measure):
 
     df_result = pd.DataFrame(dict_results)
     df_result = df_result.transpose().reset_index()
-    df_result.columns = list(["Model", "R Squared", "MSE", "MAE"])
+    df_result.columns = list(["Model", "R Squared", "MSE", "MAE", "MAPE"])
     df_result = df_result.sort_values(by=[accuracy_value_measure], ascending=indicator)
 
     data = df_result.to_dict("records")
