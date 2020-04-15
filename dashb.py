@@ -89,7 +89,7 @@ app.layout = html.Div(
                                     id="trainingselector",
                                     options=get_options(df_c.dataset.unique()),
                                     multi=False,
-                                    value="validation",
+                                    value="testing",
                                 )
                             ],
                         ),
@@ -253,13 +253,13 @@ def update_page(period_selected, data_set_selected, accuracy_value_measure):
             [
                 round(np.sqrt(
                     metrics.mean_squared_error(df_acc.future, df_acc[model_names[i]]))
-                    * 100,
-                    7
+                    * 10000,
+                    4
                 ),
                 round(
                     metrics.mean_absolute_error(df_acc.future, df_acc[model_names[i]])
-                    * 100,
-                    5,
+                    * 100000,
+                    4,
                 ),
                 round(mean_absolute_percentage_error(df_acc.future, df_acc[model_names[i]]), 2),
                 round(metrics.r2_score(df_acc.future, df_acc[model_names[i]]), 4),
