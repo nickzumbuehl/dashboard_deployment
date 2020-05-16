@@ -1,4 +1,4 @@
-# dashboard_deployment
+# Dashboard for Master Thesis Nick Zumbühl
 
 ### website:
 http://nick-vola.herokuapp.com
