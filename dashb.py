@@ -9,7 +9,7 @@ import numpy as np
 from sklearn import metrics
 from sklearn.linear_model import LinearRegression
 
-url = "https://raw.githubusercontent.com/nickzumbuehl/dashboard_deployment/master/DashboardData.csv"
+url = "https://raw.githubusercontent.com/nickzumbuehl/master_thesis/master/masterthesis/output/Predictions/DashboardData.csv"
 
 df_c = pd.read_csv(url,sep=",", parse_dates=True, index_col=0)
 
@@ -60,18 +60,18 @@ app.layout = html.Div(
                 html.Div(
                     className="pretty_container three columns",
                     children=[
-                        html.P("Pick one or more measures from the Dropdown below."),
+                        html.P("Select one or more models from the dropdown below:"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
                                     id="stockselector",
                                     options=get_options(df_tmp.columns),
                                     multi=True,
-                                    value=["future", "H(SV)", "L(SV,40)"],
+                                    value=["future", "H(SV)", "L(RV,40)"],
                                 ),
                             ],
                         ),
-                        html.P("Pick one or more measures from the Checklist below."),
+                        html.P("Select the Forecasting horizon you want to analyze"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
@@ -82,7 +82,7 @@ app.layout = html.Div(
                                 )
                             ],
                         ),
-                        html.P("Testing Training Validation"),
+                        html.P("Select the data set you want to analyze (training, validation, testing)"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
@@ -111,18 +111,18 @@ app.layout = html.Div(
                 html.Div(
                     className="pretty_container three columns",
                     children=[
-                        html.P("Bias (violin plots): Which models do you want to analyze the biases for. Select the models in the dropdown below: "),
+                        html.P("Bias (violin) plots - Please select the models you want to analyze:"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
                                     id="options_selector",
                                     options=get_options(df_tmp_2.columns),
                                     multi=True,
-                                    value=["H(SV)", "L(SV,40)"],
+                                    value=["H(SV)", "L(RV,40)"],
                                 ),
                             ],
                         ),
-                        html.P("Choose the percentile you want to analyze in more depth:"),
+                        html.P("Mincer-Zarnowitz Regression - Please select the data percentile that should be displayed:"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
@@ -137,7 +137,7 @@ app.layout = html.Div(
                                 ),
                             ],
                         ),
-                        html.P("Choose the accuracy measure: Table of accurancy  measures is going to be sorted by this measure:"),
+                        html.P("Table Accuracy Measures - Please select the main accuracy measure. The table will be sorted according to the best performance based on the selected accuracy measure:"),
                         html.Div(
                             children=[
                                 dcc.Dropdown(
