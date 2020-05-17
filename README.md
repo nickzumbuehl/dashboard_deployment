@@ -18,10 +18,13 @@ The dashboard takes the data input produced by [```dashboard_data_prep.py```](ht
 This plot shows the time series of the predicted realized volatility measures for the models selected in the dropdown menu. Moreover, one can choose for which data set and period the time series should be plotted. Please note, the actual series is called ```future``` in the dropdown menue.
 
 #### Bias Plots
+The bias plot show the distribution of the biases. The y-axis is computed as ```predicted realized volatility - actual realized volatility```. A large positive value thus implies an over-prediction, whereas a small value indicates an under-prediction.
 
 #### Mincer Zarnowitz Scatter Plot
+This scatter plots shows the actual values versus the predicted values. More specifically, the x-axis depicts the predicted values, whereas the y-axis depicts the actual realized volatility measures. Naturally, the closer the points in the scatter plot are to the 45 degree line, the better the prediction. 
 
 ### Accuracy Measures
+The table reports the most important accuracy measure, including the ```MAE```, ```MAPE```, ```MSE```, ```Mincer-Zarnowitz R-Squared``` and ```Mincer-Zarnowitz Beta```. The accuracy measures are discussed more thoroughly in the text version of the thesis.
 
 
 
