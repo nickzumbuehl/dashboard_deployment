@@ -7,12 +7,15 @@ The dashboard runs under the url: http://nick-vola.herokuapp.com. Please note th
 
 Alternatively, the dashboard can also be run locally. To run the dashboard on your local machine please follow the subsequent steps:
 1. make sure you have all necessary dependencies installed on your local machine. All dependencies are listed in [```requirements.txt```](requirements.txt).
+2. run [```dashb.py```](dashb.py) in the terminal by typing: ```python dashb.py```
+3. copy paste the url from the terminal to your local browser to open the dashboard.
 
 ## Dashboard Structure
 The dashboard takes the data input produced by [```dashboard_data_prep.py```](https://github.com/nickzumbuehl/master_thesis/blob/master/masterthesis/dashboard_data_prep.py). This data are then visualized and accuracy measures are computed.
 
 ### Visualization
 #### Time Series Plot
+This plot shows the time series of the predicted realized volatility measures for the models selected in the dropdown menu. Moreover, one can choose for which data set and period the time series should be plotted. Please note, the actual series is called ```future``` in the dropdown menue.
 
 #### Bias Plots
 
